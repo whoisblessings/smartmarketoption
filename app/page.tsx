@@ -5,6 +5,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { TradingViewTicker } from '@/components/TradingViewTicker';
 import { ProfitCalculator } from '@/components/ProfitCalculator';
 import { SiteFooter } from '@/components/SiteFooter';
+import { SmartLogo } from '@/components/SmartLogo';
 
 const packagesPreview = [
   { name: 'Starter', rate: '1.5%', period: 'daily', min: 'KSh 500', color: 'from-emerald-500/20 to-transparent' },
@@ -50,9 +51,21 @@ const marketThemes = [
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-amoled">
-      <div className="sticky top-0 z-50 border-b border-white/5 bg-black/90 backdrop-blur-md">
+      {/* Site header: logo + brand name */}
+      <header className="sticky top-0 z-50 border-b border-white/5 bg-black/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-lg items-center gap-2.5 px-5 py-3">
+          <SmartLogo size={36} />
+          <div className="flex flex-col leading-tight">
+            <span className="text-base font-bold tracking-tight text-white">
+              SmartMarket<span className="text-accent">Option</span>
+            </span>
+            <span className="text-[10px] font-medium uppercase tracking-wider text-white/40">
+              smartmarketoption
+            </span>
+          </div>
+        </div>
         <TradingViewTicker />
-      </div>
+      </header>
 
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -65,12 +78,15 @@ export default function LandingPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/80 to-black" />
         </div>
-        <div className="relative z-10 mx-auto max-w-lg px-5 pb-12 pt-12">
-          <div className="mb-8 flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent">
-              <Icon name="show_chart" size={22} className="text-black" />
+        <div className="relative z-10 mx-auto max-w-lg px-5 pb-12 pt-10">
+          <div className="mb-8 flex items-center gap-2.5">
+            <SmartLogo size={44} />
+            <div className="flex flex-col leading-tight">
+              <span className="text-xl font-bold tracking-tight text-white">
+                SmartMarket<span className="text-accent">Option</span>
+              </span>
+              <span className="text-xs text-white/50">smartmarketoption</span>
             </div>
-            <span className="text-xl font-bold tracking-tight">SmartMarket</span>
           </div>
           <h1 className="mb-4 text-4xl font-bold leading-tight tracking-tight">
             Grow your wealth <span className="text-accent">smartly</span>
