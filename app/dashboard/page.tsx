@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -12,28 +12,30 @@ import type { Profile, Investment, Package } from '@/lib/types';
 
 const GUEST_PROFILE: Profile = {
   id: 'guest',
+  email: 'guest@smartmarketoption.com',
   full_name: 'Guest Investor',
-  phone: '',
+  phone: null,
+  role: 'user',
   balance: 12500,
   total_invested: 8000,
   total_earned: 1240,
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
-  is_admin: false,
 };
 
-const GUEST_INVESTMENTS = [
+const GUEST_INVESTMENTS: (Investment & { packages?: Partial<Package> })[] = [
   {
     id: 'g1',
     user_id: 'guest',
     package_id: 'p1',
     amount: 5000,
     interest_rate: 2.2,
+    expected_return: 3300,
     start_date: new Date(Date.now() - 5 * 86400000).toISOString(),
     end_date: new Date(Date.now() + 25 * 86400000).toISOString(),
-    status: 'active' as const,
+    status: 'active',
     created_at: new Date().toISOString(),
-    packages: { name: 'Growth', daily_rate: 2.2, min_amount: 5000, duration_days: 30 },
+    packages: { name: 'Growth', interest_rate: 2.2, min_amount: 5000, duration_days: 30 },
   },
   {
     id: 'g2',
@@ -41,15 +43,16 @@ const GUEST_INVESTMENTS = [
     package_id: 'p2',
     amount: 3000,
     interest_rate: 1.5,
+    expected_return: 630,
     start_date: new Date(Date.now() - 2 * 86400000).toISOString(),
     end_date: new Date(Date.now() + 12 * 86400000).toISOString(),
-    status: 'active' as const,
+    status: 'active',
     created_at: new Date().toISOString(),
-    packages: { name: 'Starter', daily_rate: 1.5, min_amount: 500, duration_days: 14 },
+    packages: { name: 'Starter', interest_rate: 1.5, min_amount: 500, duration_days: 14 },
   },
 ];
 
-export default function DashboardPage() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [investments, setInvestments] = useState<(Investment & { packages?: Package })[]>([]);
@@ -210,5 +213,19 @@ export default function DashboardPage() {
         </div>
       )}
     </AppShell>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={
+      <AppShell>
+        <div className="flex h-64 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+        </div>
+      </AppShell>
+    }>
+      <DashboardContent />
+    </Suspense>
   );
 }
