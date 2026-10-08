@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Icon } from '@/components/ui/Icon';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { TradingViewTicker } from '@/components/TradingViewTicker';
+import { ProfitCalculator } from '@/components/ProfitCalculator';
 
 const packagesPreview = [
   {
@@ -49,6 +50,29 @@ const howItWorks = [
     step: '04',
     title: 'Track & Earn',
     desc: 'Watch your returns grow in real time on a clean, transparent dashboard.',
+  },
+];
+
+const investmentPillars = [
+  {
+    icon: 'account_balance',
+    title: 'Diversified approach',
+    desc: 'Packages are structured so you can start small and scale up as your capital grows—without locking you into complex products.',
+  },
+  {
+    icon: 'schedule',
+    title: 'Fixed, clear timelines',
+    desc: 'Each plan has a defined duration and daily rate so you know when returns are expected and when your principal is available again.',
+  },
+  {
+    icon: 'visibility',
+    title: 'Full transparency',
+    desc: 'See rates, balances, and active investments on your dashboard. No hidden fees in the package summary—what you see is what you track.',
+  },
+  {
+    icon: 'payments',
+    title: 'M-Pesa native',
+    desc: 'Deposit and withdraw using the payment method millions of Kenyans already trust. STK Push keeps funding fast and familiar.',
   },
 ];
 
@@ -143,6 +167,79 @@ export default function LandingPage() {
               </div>
             </GlassCard>
           ))}
+        </div>
+      </section>
+
+      {/* Profit Calculator */}
+      <section className="mx-auto max-w-lg px-5 py-10">
+        <h2 className="mb-2 text-xl font-semibold">Calculate Your Profit</h2>
+        <p className="mb-6 text-sm text-white/50">
+          Pick a package, set an amount and duration, and see estimated daily and total returns.
+        </p>
+        <ProfitCalculator />
+      </section>
+
+      {/* About investment */}
+      <section className="mx-auto max-w-lg px-5 py-10">
+        <h2 className="mb-2 text-xl font-semibold">How SmartMarket Investing Works</h2>
+        <p className="mb-6 text-sm text-white/60 leading-relaxed">
+          SmartMarket offers fixed-rate investment packages designed for clarity. You choose a
+          plan, fund your wallet, and allocate capital for a set period. Returns are calculated
+          from the published daily rate for that package so you can plan ahead.
+        </p>
+        <div className="grid gap-4">
+          {investmentPillars.map((p) => (
+            <GlassCard key={p.title} className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/15">
+                <Icon name={p.icon} size={22} className="text-accent" />
+              </div>
+              <div>
+                <h3 className="font-semibold">{p.title}</h3>
+                <p className="mt-1 text-sm text-white/60">{p.desc}</p>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* Investment education */}
+      <section className="mx-auto max-w-lg px-5 py-10">
+        <h2 className="mb-2 text-xl font-semibold">Building Wealth Step by Step</h2>
+        <p className="mb-6 text-sm text-white/50">
+          Practical principles we encourage every investor to follow.
+        </p>
+        <div className="space-y-4">
+          <GlassCard>
+            <h3 className="font-semibold mb-2">Start with what you can afford</h3>
+            <p className="text-sm text-white/60 leading-relaxed">
+              The Starter package begins from KSh 500 so you can learn the flow—deposit, invest,
+              track—before committing larger amounts. Never invest money you need for essentials.
+            </p>
+          </GlassCard>
+          <GlassCard>
+            <h3 className="font-semibold mb-2">Match plan to goal</h3>
+            <p className="text-sm text-white/60 leading-relaxed">
+              Short-term goals may suit Starter or Growth. Larger capital and longer horizons can
+              use Premium for higher daily rates. Use the calculator above to compare outcomes
+              before you commit.
+            </p>
+          </GlassCard>
+          <GlassCard>
+            <h3 className="font-semibold mb-2">Track and reinvest deliberately</h3>
+            <p className="text-sm text-white/60 leading-relaxed">
+              Your dashboard shows active investments, balances, and earnings. When a package
+              completes, decide whether to withdraw or roll capital into a new plan based on your
+              current goals—not impulse.
+            </p>
+          </GlassCard>
+          <GlassCard>
+            <h3 className="font-semibold mb-2">Understand the model</h3>
+            <p className="text-sm text-white/60 leading-relaxed">
+              Packages use fixed daily rates over a defined period. Estimated profits in the
+              calculator are illustrative. Always read package terms in-app and invest only after
+              you understand duration, minimums, and how returns are credited.
+            </p>
+          </GlassCard>
         </div>
       </section>
 
@@ -246,6 +343,29 @@ export default function LandingPage() {
         </Link>
       </section>
 
+      {/* Who it's for */}
+      <section className="mx-auto max-w-lg px-5 py-10">
+        <h2 className="mb-2 text-xl font-semibold">Who Is This For?</h2>
+        <p className="mb-6 text-sm text-white/50">
+          Built for Kenyan investors who want simple, trackable packages—not complicated trading terminals.
+        </p>
+        <div className="grid gap-3">
+          {[
+            'First-time investors starting from KSh 500',
+            'Savers who prefer fixed rates over open-ended trading',
+            'People who want M-Pesa deposits and withdrawals',
+            'Anyone who wants a clear dashboard of balance and active plans',
+          ].map((item) => (
+            <GlassCard key={item} className="flex items-center gap-3">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/15">
+                <Icon name="check" size={18} className="text-accent" />
+              </div>
+              <p className="text-sm text-white/70">{item}</p>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
       {/* Testimonials-style content */}
       <section className="mx-auto max-w-lg px-5 py-10">
         <h2 className="mb-6 text-xl font-semibold">What Investors Say</h2>
@@ -261,6 +381,12 @@ export default function LandingPage() {
               “Transparent rates and real-time tracking. Finally an investment app that doesn’t hide the numbers.”
             </p>
             <p className="mt-3 text-xs text-white/40">— Amina W., Mombasa</p>
+          </GlassCard>
+          <GlassCard>
+            <p className="text-sm text-white/70 leading-relaxed">
+              “The profit calculator helped me pick Growth over Starter. I knew roughly what I’d earn before I deposited.”
+            </p>
+            <p className="mt-3 text-xs text-white/40">— Brian O., Kisumu</p>
           </GlassCard>
         </div>
       </section>
