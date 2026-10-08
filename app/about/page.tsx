@@ -43,7 +43,7 @@ export default function AboutPage() {
       <p>
         We focus on investors who want simple, trackable packages—especially those who prefer
         M-Pesa and fixed rates over complex trading terminals. Whether you start from a few
-        hundred shillings or scale into larger plans, the product is designed to stay readable.
+        hundred dollars or scale into larger plans, the product is designed to stay readable.
       </p>
 
       <h2 className="text-lg font-semibold text-white pt-2">Contact</h2>

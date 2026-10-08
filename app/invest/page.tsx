@@ -77,7 +77,6 @@ export default function InvestPage() {
       return;
     }
 
-    // Deduct balance
     await supabase
       .from('profiles')
       .update({
@@ -87,13 +86,12 @@ export default function InvestPage() {
       .eq('id', profile.id);
 
     setMessage('Investment successful!');
+    setInvesting(false);
     setSelected(null);
     setAmount('');
-    setInvesting(false);
-
-    // Refresh profile
-    const { data: p } = await supabase.from('profiles').select('*').eq('id', profile.id).single();
-    setProfile(p);
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 1200);
   }
 
   if (loading) {
@@ -108,16 +106,16 @@ export default function InvestPage() {
 
   return (
     <AppShell>
-      <h1 className="mb-6 text-2xl font-bold">Invest</h1>
-      <p className="mb-4 text-sm text-white/50">
+      <h1 className="mb-2 text-xl font-bold">Invest</h1>
+      <p className="mb-6 text-sm text-white/50">
         Balance: <span className="text-accent font-medium">{formatCurrency(profile?.balance ?? 0)}</span>
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {packages.map((pkg) => (
           <GlassCard
             key={pkg.id}
-            className={`relative overflow-hidden ${selected?.id === pkg.id ? 'ring-1 ring-accent' : ''}`}
+            className="cursor-pointer transition-all active:scale-[0.99]"
             onClick={() => setSelected(pkg)}
           >
             <div className="flex items-start justify-between">
@@ -135,9 +133,7 @@ export default function InvestPage() {
                 <Icon name="payments" size={16} />
                 Min {formatCurrency(pkg.min_amount)}
               </span>
-              {pkg.max_amount && (
-                <span>Max {formatCurrency(pkg.max_amount)}</span>
-              )}
+              {pkg.max_amount && <span>Max {formatCurrency(pkg.max_amount)}</span>}
             </div>
           </GlassCard>
         ))}
@@ -145,17 +141,17 @@ export default function InvestPage() {
 
       {selected && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center">
-          <GlassCard strong className="w-full max-w-sm animate-slide-up">
+          <GlassCard strong className="w-full max-w-sm">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-bold">Invest in {selected.name}</h3>
-              <button onClick={() => setSelected(null)} className="text-white/50">
+              <button type="button" onClick={() => setSelected(null)} className="text-white/50">
                 <Icon name="close" />
               </button>
             </div>
             <p className="mb-4 text-sm text-white/50">
               Rate: {formatPercent(selected.interest_rate)} · Duration: {selected.duration_days} days
             </p>
-            <label className="mb-1.5 block text-sm text-white/60">Amount (KES)</label>
+            <label className="mb-1.5 block text-sm text-white/60">Amount (USD)</label>
             <input
               type="number"
               value={amount}
@@ -170,6 +166,7 @@ export default function InvestPage() {
               </p>
             )}
             <button
+              type="button"
               onClick={handleInvest}
               disabled={investing}
               className="btn-accent w-full disabled:opacity-50"
