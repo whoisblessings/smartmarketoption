@@ -77,6 +77,27 @@ const investmentPillars = [
   },
 ];
 
+const marketThemes = [
+  {
+    title: 'Equities mindset',
+    desc: 'Think long-term ownership of value—our packages give you structured exposure-style returns without needing a brokerage terminal.',
+    image: 'https://images.unsplash.com/photo-1579532537598-459ecdaf36cc?w=800&q=80',
+    alt: 'Stock market board and financial data',
+  },
+  {
+    title: 'Discipline over noise',
+    desc: 'Markets move every second. Fixed daily rates help you stick to a plan instead of chasing every headline.',
+    image: 'https://images.unsplash.com/photo-1642790551116-18e150f248e5?w=800&q=80',
+    alt: 'Trader studying candlestick charts on screen',
+  },
+  {
+    title: 'Mobile-first investing',
+    desc: 'Check balances, fund via M-Pesa, and follow active packages from your phone—wherever you are.',
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80',
+    alt: 'Person investing on smartphone',
+  },
+];
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-amoled">
@@ -171,6 +192,34 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Markets & mindset with images */}
+      <section className="mx-auto max-w-lg px-5 py-10">
+        <h2 className="mb-2 text-xl font-semibold">Think Like an Investor</h2>
+        <p className="mb-6 text-sm text-white/50">
+          Global markets reward patience and structure. SmartMarket packages are built for that mindset.
+        </p>
+        <div className="space-y-4">
+          {marketThemes.map((theme) => (
+            <div key={theme.title} className="overflow-hidden rounded-2xl border border-white/10">
+              <div className="relative h-44 w-full">
+                <Image
+                  src={theme.image}
+                  alt={theme.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 512px) 100vw, 512px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                <p className="absolute bottom-3 left-4 right-4 text-lg font-semibold">{theme.title}</p>
+              </div>
+              <div className="bg-white/5 px-4 py-3">
+                <p className="text-sm text-white/60 leading-relaxed">{theme.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Profit Calculator */}
       <section className="mx-auto max-w-lg px-5 py-10">
         <h2 className="mb-2 text-xl font-semibold">Calculate Your Profit</h2>
@@ -200,6 +249,25 @@ export default function LandingPage() {
               </div>
             </GlassCard>
           ))}
+        </div>
+      </section>
+
+      {/* Image banner: office / trading floor feel */}
+      <section className="mx-auto max-w-lg px-5 py-6">
+        <div className="relative h-52 overflow-hidden rounded-2xl">
+          <Image
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1000&q=80"
+            alt="Modern financial district skyline"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
+          <div className="absolute inset-0 flex flex-col justify-end p-5">
+            <p className="text-xs font-medium uppercase tracking-wider text-accent">Markets never sleep</p>
+            <p className="mt-1 text-lg font-bold leading-snug">
+              Your capital works on a clear schedule—so you don’t have to watch the tape all day.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -265,7 +333,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Trading lifestyle imagery */}
+      {/* Expanded lifestyle gallery */}
       <section className="mx-auto max-w-lg px-5 py-10">
         <h2 className="mb-2 text-xl font-semibold">Trade & Invest Like a Pro</h2>
         <p className="mb-6 text-sm text-white/50">
@@ -292,7 +360,27 @@ export default function LandingPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             <p className="absolute bottom-3 left-3 right-3 text-sm font-medium">Track growth</p>
           </div>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl col-span-2">
+          <div className="relative aspect-square overflow-hidden rounded-2xl">
+            <Image
+              src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80"
+              alt="Candlestick chart on trading screen"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            <p className="absolute bottom-3 left-3 right-3 text-sm font-medium">Read the tape</p>
+          </div>
+          <div className="relative aspect-square overflow-hidden rounded-2xl">
+            <Image
+              src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=600&q=80"
+              alt="Counting money and planning investments"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            <p className="absolute bottom-3 left-3 right-3 text-sm font-medium">Plan capital</p>
+          </div>
+          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl col-span-2">
             <Image
               src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
               alt="Team reviewing investment performance"
@@ -303,6 +391,77 @@ export default function LandingPage() {
             <p className="absolute bottom-3 left-3 right-3 text-sm font-medium">
               Build wealth with a community of smart investors
             </p>
+          </div>
+          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl col-span-2">
+            <Image
+              src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80"
+              alt="Professional in business attire ready for markets"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
+            <p className="absolute bottom-3 left-3 right-3 text-sm font-medium">
+              Dress for the goals you are funding
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Why fixed packages */}
+      <section className="mx-auto max-w-lg px-5 py-10">
+        <h2 className="mb-2 text-xl font-semibold">Why Fixed Packages?</h2>
+        <p className="mb-6 text-sm text-white/50">
+          Not everyone wants leverage, margin calls, or overnight chart watching.
+        </p>
+        <div className="space-y-3">
+          {[
+            {
+              title: 'Predictable structure',
+              body: 'You see the rate and duration before you invest. That makes budgeting and goal-setting simpler than open-ended trading.',
+            },
+            {
+              title: 'Less screen time',
+              body: 'Set your package, fund the wallet, and monitor progress on the dashboard—without needing to day-trade.',
+            },
+            {
+              title: 'Clear minimums',
+              body: 'From KSh 500 upward, you can match package size to what you actually have available.',
+            },
+            {
+              title: 'Local payment rails',
+              body: 'M-Pesa deposits and withdrawals keep funding in a flow you already use every day.',
+            },
+          ].map((item) => (
+            <GlassCard key={item.title}>
+              <h3 className="font-semibold mb-1.5">{item.title}</h3>
+              <p className="text-sm text-white/60 leading-relaxed">{item.body}</p>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* Security strip with image */}
+      <section className="mx-auto max-w-lg px-5 py-6">
+        <div className="relative overflow-hidden rounded-2xl border border-white/10">
+          <div className="relative h-40">
+            <Image
+              src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80"
+              alt="Digital security and encrypted data concept"
+              fill
+              className="object-cover opacity-50"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
+          </div>
+          <div className="relative -mt-16 px-5 pb-5">
+            <h2 className="text-xl font-semibold mb-2">Security you can see</h2>
+            <p className="text-sm text-white/60 leading-relaxed mb-4">
+              Encrypted sessions, protected accounts, and transparent transaction history on your
+              dashboard. We treat your login and payment details with care—and you should too:
+              use a strong password and never share OTPs.
+            </p>
+            <Link href="/privacy" className="text-sm text-accent hover:underline">
+              Read our Privacy Policy →
+            </Link>
           </div>
         </div>
       </section>
@@ -356,6 +515,7 @@ export default function LandingPage() {
             'Savers who prefer fixed rates over open-ended trading',
             'People who want M-Pesa deposits and withdrawals',
             'Anyone who wants a clear dashboard of balance and active plans',
+            'Busy professionals who prefer structure over constant chart watching',
           ].map((item) => (
             <GlassCard key={item} className="flex items-center gap-3">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/15">
@@ -367,7 +527,34 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials-style content */}
+      {/* Getting started checklist */}
+      <section className="mx-auto max-w-lg px-5 py-10">
+        <h2 className="mb-2 text-xl font-semibold">Your First Week on SmartMarket</h2>
+        <p className="mb-6 text-sm text-white/50">
+          A simple checklist to go from curious to invested.
+        </p>
+        <div className="space-y-3">
+          {[
+            { n: '1', t: 'Create your account', d: 'Register with email and phone, or explore first as a guest.' },
+            { n: '2', t: 'Run the profit calculator', d: 'Compare Starter, Growth, and Premium for the amount you have in mind.' },
+            { n: '3', t: 'Fund with M-Pesa', d: 'Use STK Push from the wallet screen—approve the prompt on your phone.' },
+            { n: '4', t: 'Pick a package', d: 'Confirm rate, duration, and minimum before you allocate funds.' },
+            { n: '5', t: 'Watch the dashboard', d: 'Track balance, invested amount, and active plans in one place.' },
+          ].map((s) => (
+            <GlassCard key={s.n} className="flex gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-black font-bold text-sm">
+                {s.n}
+              </div>
+              <div>
+                <h3 className="font-semibold">{s.t}</h3>
+                <p className="mt-0.5 text-sm text-white/60">{s.d}</p>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials */}
       <section className="mx-auto max-w-lg px-5 py-10">
         <h2 className="mb-6 text-xl font-semibold">What Investors Say</h2>
         <div className="grid gap-4">
@@ -388,6 +575,12 @@ export default function LandingPage() {
               “The profit calculator helped me pick Growth over Starter. I knew roughly what I’d earn before I deposited.”
             </p>
             <p className="mt-3 text-xs text-white/40">— Brian O., Kisumu</p>
+          </GlassCard>
+          <GlassCard>
+            <p className="text-sm text-white/70 leading-relaxed">
+              “I don’t have time to trade all day. Fixed packages and M-Pesa funding fit how I actually live.”
+            </p>
+            <p className="mt-3 text-xs text-white/40">— Faith M., Nakuru</p>
           </GlassCard>
         </div>
       </section>
@@ -410,18 +603,48 @@ export default function LandingPage() {
         </GlassCard>
       </section>
 
-      {/* CTA */}
-      <section className="mx-auto max-w-lg px-5 py-10 text-center">
-        <h2 className="text-2xl font-bold mb-3">Ready to grow smarter?</h2>
-        <p className="text-white/60 mb-6 text-sm">
-          Create a free account or explore as a guest. No credit card required.
-        </p>
-        <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <Link href="/auth/register" className="btn-accent text-center">
-            Create Account
+      {/* Final image CTA */}
+      <section className="mx-auto max-w-lg px-5 py-6">
+        <div className="relative h-56 overflow-hidden rounded-2xl">
+          <Image
+            src="https://images.unsplash.com/photo-1633158829875-e5316a73c62f?w=1000&q=80"
+            alt="Hands holding coins representing growing savings"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+            <h2 className="text-2xl font-bold mb-2">Ready to grow smarter?</h2>
+            <p className="text-sm text-white/70 mb-5">
+              Create a free account or explore as a guest. No credit card required.
+            </p>
+            <div className="flex flex-col gap-3 w-full sm:flex-row sm:justify-center">
+              <Link href="/auth/register" className="btn-accent text-center">
+                Create Account
+              </Link>
+              <Link href="/dashboard?guest=1" className="btn-ghost text-center">
+                Try as Guest
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Extra links */}
+      <section className="mx-auto max-w-lg px-5 py-8 text-center text-sm text-white/50">
+        <p className="mb-3">Learn more about how we work</p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link href="/about" className="text-accent hover:underline">
+            About Us
           </Link>
-          <Link href="/dashboard?guest=1" className="btn-ghost text-center">
-            Try as Guest
+          <Link href="/support" className="text-accent hover:underline">
+            Support
+          </Link>
+          <Link href="/terms" className="text-accent hover:underline">
+            Terms
+          </Link>
+          <Link href="/privacy" className="text-accent hover:underline">
+            Privacy
           </Link>
         </div>
       </section>
