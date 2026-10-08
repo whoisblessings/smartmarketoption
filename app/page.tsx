@@ -4,6 +4,7 @@ import { Icon } from '@/components/ui/Icon';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { TradingViewTicker } from '@/components/TradingViewTicker';
 import { ProfitCalculator } from '@/components/ProfitCalculator';
+import { SiteFooter } from '@/components/SiteFooter';
 
 const packagesPreview = [
   {
@@ -110,7 +111,7 @@ export default function LandingPage() {
             <span className="text-accent">smartly</span>
           </h1>
           <p className="mb-8 text-base text-white/70 leading-relaxed">
-            Invest with confidence. Transparent packages, instant M-Pesa deposits &amp;
+            Invest with confidence. Transparent packages, instant M-Pesa deposits &
             withdrawals, and real-time returns tracking.
           </p>
 
@@ -425,10 +426,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-8 text-center text-sm text-white/40">
-        <p>© {new Date().getFullYear()} Smart Market Option. All rights reserved.</p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
