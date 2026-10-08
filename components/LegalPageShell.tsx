@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Icon } from '@/components/ui/Icon';
 import { SiteFooter } from '@/components/SiteFooter';
+import { SmartLogo } from '@/components/SmartLogo';
 
 export function LegalPageShell({
   title,
@@ -14,9 +14,7 @@ export function LegalPageShell({
       <header className="border-b border-white/5">
         <div className="mx-auto flex max-w-lg items-center gap-3 px-5 py-4">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent">
-              <Icon name="show_chart" size={20} className="text-black" />
-            </div>
+            <SmartLogo size={36} />
             <span className="font-bold tracking-tight">SmartMarket</span>
           </Link>
         </div>
