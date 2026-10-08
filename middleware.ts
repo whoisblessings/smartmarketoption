@@ -34,14 +34,32 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
+  const isGuest = request.nextUrl.searchParams.get('guest') === '1' || request.cookies.get('guest_mode')?.value === '1';
 
   const protectedPaths = ['/dashboard', '/invest', '/wallet', '/history', '/profile', '/admin'];
   const isProtected = protectedPaths.some((p) => path.startsWith(p));
 
-  if (isProtected && !user) {
+  // Allow guest access to user-facing pages (not admin)
+  if (isProtected && !user && !isGuest) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = '/auth/login';
     return NextResponse.redirect(redirectUrl);
+  }
+
+  // Block guests from admin
+  if (path.startsWith('/admin') && !user) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/auth/login';
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  // Set guest cookie when arriving with ?guest=1
+  if (isGuest && !request.cookies.get('guest_mode')) {
+    supabaseResponse.cookies.set('guest_mode', '1', {
+      path: '/',
+      maxAge: 60 * 60 * 24, // 24 hours
+      sameSite: 'lax',
+    });
   }
 
   if (user && (path.startsWith('/auth/login') || path.startsWith('/auth/register'))) {

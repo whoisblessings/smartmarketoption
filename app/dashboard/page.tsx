@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { AppShell } from '@/components/AppShell';
 import { GlassCard } from '@/components/ui/GlassCard';
@@ -9,15 +10,68 @@ import { Icon } from '@/components/ui/Icon';
 import { formatCurrency } from '@/lib/utils';
 import type { Profile, Investment, Package } from '@/lib/types';
 
+const GUEST_PROFILE: Profile = {
+  id: 'guest',
+  full_name: 'Guest Investor',
+  phone: '',
+  balance: 12500,
+  total_invested: 8000,
+  total_earned: 1240,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
+  is_admin: false,
+};
+
+const GUEST_INVESTMENTS = [
+  {
+    id: 'g1',
+    user_id: 'guest',
+    package_id: 'p1',
+    amount: 5000,
+    interest_rate: 2.2,
+    start_date: new Date(Date.now() - 5 * 86400000).toISOString(),
+    end_date: new Date(Date.now() + 25 * 86400000).toISOString(),
+    status: 'active' as const,
+    created_at: new Date().toISOString(),
+    packages: { name: 'Growth', daily_rate: 2.2, min_amount: 5000, duration_days: 30 },
+  },
+  {
+    id: 'g2',
+    user_id: 'guest',
+    package_id: 'p2',
+    amount: 3000,
+    interest_rate: 1.5,
+    start_date: new Date(Date.now() - 2 * 86400000).toISOString(),
+    end_date: new Date(Date.now() + 12 * 86400000).toISOString(),
+    status: 'active' as const,
+    created_at: new Date().toISOString(),
+    packages: { name: 'Starter', daily_rate: 1.5, min_amount: 500, duration_days: 14 },
+  },
+];
+
 export default function DashboardPage() {
+  const searchParams = useSearchParams();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [investments, setInvestments] = useState<(Investment & { packages?: Package })[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
     async function load() {
+      const guestParam = searchParams.get('guest') === '1';
+      const guestCookie = typeof document !== 'undefined' && document.cookie.includes('guest_mode=1');
+
       const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user && (guestParam || guestCookie)) {
+        setIsGuest(true);
+        setProfile(GUEST_PROFILE);
+        setInvestments(GUEST_INVESTMENTS as any);
+        setLoading(false);
+        return;
+      }
+
       if (!user) {
         window.location.href = '/auth/login';
         return;
@@ -41,7 +95,7 @@ export default function DashboardPage() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [searchParams]);
 
   if (loading) {
     return (
@@ -57,16 +111,38 @@ export default function DashboardPage() {
     <AppShell>
       <header className="mb-6 flex items-center justify-between">
         <div>
-          <p className="text-sm text-white/50">Welcome back</p>
+          <p className="text-sm text-white/50">
+            {isGuest ? 'Exploring as guest' : 'Welcome back'}
+          </p>
           <h1 className="text-xl font-bold">{profile?.full_name || 'Investor'}</h1>
         </div>
-        <Link
-          href="/profile"
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/20"
-        >
-          <Icon name="person" className="text-accent" />
-        </Link>
+        {isGuest ? (
+          <Link
+            href="/auth/register"
+            className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-black"
+          >
+            Sign Up
+          </Link>
+        ) : (
+          <Link
+            href="/profile"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/20"
+          >
+            <Icon name="person" className="text-accent" />
+          </Link>
+        )}
       </header>
+
+      {isGuest && (
+        <GlassCard className="mb-4 border border-accent/30 bg-accent/5">
+          <p className="text-sm text-white/80">
+            You’re viewing a demo dashboard. Create a free account to deposit, invest, and track real returns.
+          </p>
+          <Link href="/auth/register" className="btn-accent mt-3 inline-block text-sm py-2 px-4">
+            Create Free Account
+          </Link>
+        </GlassCard>
+      )}
 
       {/* Balance card */}
       <GlassCard strong className="mb-6 relative overflow-hidden">
@@ -76,10 +152,10 @@ export default function DashboardPage() {
           {formatCurrency(profile?.balance ?? 0)}
         </p>
         <div className="mt-4 flex gap-3">
-          <Link href="/wallet?tab=deposit" className="btn-accent flex-1 text-center text-sm py-2.5">
+          <Link href={isGuest ? '/auth/register' : '/wallet?tab=deposit'} className="btn-accent flex-1 text-center text-sm py-2.5">
             Deposit
           </Link>
-          <Link href="/wallet?tab=withdraw" className="btn-ghost flex-1 text-center text-sm py-2.5">
+          <Link href={isGuest ? '/auth/register' : '/wallet?tab=withdraw'} className="btn-ghost flex-1 text-center text-sm py-2.5">
             Withdraw
           </Link>
         </div>
@@ -102,7 +178,7 @@ export default function DashboardPage() {
       {/* Active investments */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-semibold">Active Investments</h2>
-        <Link href="/invest" className="text-sm text-accent">
+        <Link href={isGuest ? '/auth/register' : '/invest'} className="text-sm text-accent">
           Invest more →
         </Link>
       </div>
@@ -111,7 +187,7 @@ export default function DashboardPage() {
         <GlassCard className="text-center py-10">
           <Icon name="savings" size={40} className="mx-auto text-white/30" />
           <p className="mt-3 text-white/50">No active investments yet</p>
-          <Link href="/invest" className="btn-accent mt-4 inline-block text-sm">
+          <Link href={isGuest ? '/auth/register' : '/invest'} className="btn-accent mt-4 inline-block text-sm">
             Browse Packages
           </Link>
         </GlassCard>
